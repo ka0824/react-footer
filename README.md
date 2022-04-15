@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+> ## 소개
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- 리액트에서 Footer를 하단에 고정 시키는 코드를 담았습니다.
 
-## Available Scripts
+<br />
 
-In the project directory, you can run:
+> ## 과정
 
-### `npm start`
+- html, body, root라는 id를 가진 엘리먼트의 높이와 크기를 모두 100%로 설정
+```
+globalStyle.js
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+import { createGlobalStyle } from 'styled-components';
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+const GlobalStyle = createGlobalStyle`
+    * {
+        box-sizing: border-box;
+    }
 
-### `npm test`
+    html, body, #root {            // html, body #root 모두 
+        width: 100%;
+        height: 100%;
+    }
+`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+export default GlobalStyle;
 
-### `npm run build`
+```
+<br />
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Header, Body, Footer를 감싸는 엘리먼트의 높이와 크기 역시 최소 크기를 100%로 설정 후 수직 방향으로 flex
+- body 부분에만 flex: 1 1 0 값 지정
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+App.js
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+import Header from './components/Header'
+import Body from './components/Body';
+import Footer from './components/Footer';
+import styled from 'styled-components';
 
-### `npm run eject`
+function App() {
+  return (
+    <Wrapper>
+      
+      <Header></Header>
+      <BodyWrapper>
+        <Body></Body>
+      </BodyWrapper>
+      <Footer></Footer>
+    </Wrapper>
+  );
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+const Wrapper = styled.div`         // Header, Body, Footer를 모두 담고 있는 엘리먼트
+  position: relative;
+  min-height: 100vh;                // 컨텐츠 양에 상관없이 무조건 화면 꽉 채움
+  height: auto;                     // 컨텐츠 양이 길어질 시 늘어난 길이 자동 적용
+  width: 100%;
+  background-color: blue;
+  display: flex;                    // flex를 사용.
+  flex-direction: column;
+`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+const BodyWrapper = styled.div`
+  border: 1px solid black;
+  flex: 1 1 0;                      // body 부분에만 flex: 1 1 0을 지정해 줌.
+  background-color: yellow;
+`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+export default App;
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
